@@ -10,6 +10,12 @@ nginx-1.12.2.tar.gz
 build/
 testjson
 muduo_test/echo_server
+testmuduo/server
+testmuduo/bin/
+*.o
+
+# Claude
+.claude/
 
 # 编辑器
 .vscode/
