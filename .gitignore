@@ -1,0 +1,23 @@
+# 第三方库源码（太大，不提交）
+boost_1_69_0/
+boost_1_69_0.tar.gz
+muduo-master/
+muduo-master.zip
+nginx-1.12.2/
+nginx-1.12.2.tar.gz
+
+# 编译产物
+build/
+testjson
+muduo_test/echo_server
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 系统文件
+.DS_Store
+Thumbs.db
