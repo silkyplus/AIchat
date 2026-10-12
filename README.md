@@ -1,144 +1,84 @@
 # 高性能集群聊天服务器
 
-基于 C++ 的高并发即时通讯系统，从基础网络 I/O 模型逐步演进到 Reactor 架构，并集成 AI 智能消息处理。
+基于 Muduo 的 TCP 长连接聊天服务器，采用网络通信、业务逻辑、数据访问分层设计。当前完整实现位于 [`CHAT/`](CHAT/)，通过 Redis 发布订阅完成跨节点消息转发，Nginx stream 提供统一 TCP 入口。
 
----
+## 已实现
 
-## 开发路线图
+- 注册登录、密码加盐哈希、连接身份绑定、异常断开清理。
+- 好友管理、单聊、群创建/加入/群聊、离线消息持久化与分批拉取。
+- 节点归属、正常退出清理、同节点重启时恢复遗留在线状态。
+- C++ 命令行客户端。
+- Redis 跨节点转发，Nginx round_robin / least_conn 策略对比与故障测试。
+- C++ 压测工具、正确性核对、CPU/内存/文件描述符采样。
+- 有界 MySQL 连接池、事务租约与失败连接清理，并保留关闭连接池的对比路径。
 
-### 方案一：accept + read/write（阻塞式）
+技术栈：C++11、Linux、Muduo、MySQL、Redis、Nginx、nlohmann JSON、CMake、OpenSSL、hiredis。Python 仅用于测试编排、采样与报告；服务器、客户端、负载生成器均为 C++。
 
-- [ ] 单线程阻塞 I/O 模型
-- [ ] 一次只能处理一个客户端连接
-- [ ] 理解阻塞 I/O 的问题：其他连接必须排队等待
-- [ ] 性能基准：1 并发连接
+## 构建与运行
 
-**目标**：建立网络编程最基本认知，理解 `accept` / `read` / `write` 的阻塞特性。
-
----
-
-### 方案二：accept + fork（多进程）
-
-- [ ] 每连接 fork 一个子进程处理
-- [ ] 父进程负责 accept，子进程负责读写
-- [ ] 进程间资源隔离，稳定性好
-- [ ] 理解 fork 开销大、子进程回收、僵尸进程问题
-- [ ] 性能基准：~100 并发连接
-
-**目标**：理解多进程模型及其资源开销，为多线程方案做对比。
-
----
-
-### 方案三：accept + thread（多线程）
-
-- [ ] 每连接创建一个线程处理
-- [ ] 线程共享进程地址空间，切换开销小于进程
-- [ ] 理解线程竞争、数据同步、锁的使用
-- [ ] 线程池优化：预创建线程，避免频繁创建销毁
-- [ ] 性能基准：~1000 并发连接
-
-**目标**：掌握多线程编程，理解线程池在 C10K 场景下的瓶颈。
-
----
-
-### 方案四：Reactor 模式（one loop per thread）
-
-- [ ] 基于 muduo 网络库实现
-- [ ] 理解 `epoll` I/O 多路复用
-- [ ] 理解 EventLoop（事件循环）和 Reactor 设计模式
-- [ ] mainReactor + subReactor 架构
-- [ ] 非阻塞 I/O + ET/LT 触发模式
-- [ ] 性能基准：10w+ 并发连接
-
-**核心组件**：
-```
-TcpServer → EventLoop → epoll_wait → 回调分发
-                ↑
-        EventLoopThreadPool（线程池，每个线程一个 EventLoop）
-```
-
-**目标**：掌握 Reactor 模式，理解 why muduo（one loop per thread 的设计哲学）。
-
----
-
-### 方案五：多进程 Reactor（one loop per process）
-
-- [ ] 每进程一个 EventLoop + epoll
-- [ ] 进程间通过共享内存 / Unix Domain Socket 通信
-- [ ] Nginx 反向代理做负载均衡
-- [ ] 利用多核 + 进程隔离，兼顾性能与稳定性
-- [ ] 性能基准：数十万并发连接
-
-**目标**：理解 Nginx 架构思想在多进程 Reactor 中的应用。
-
----
-
-### 性能演进对比
-
-| 方案 | 并发连接 | QPS | 延迟(avg) | 核心瓶颈 |
-|------|---------|-----|-----------|---------|
-| 方案一：阻塞 I/O | 1 | — | — | 阻塞等待 |
-| 方案二：多进程 | ~100 | — | — | fork 开销 |
-| 方案三：多线程 | ~1,000 | — | — | 线程切换 |
-| 方案四：Reactor+线程池 | 100,000+ | — | — | 业务计算 |
-| 方案五：多进程Reactor | 500,000+ | — | — | 进程间通信 |
-
-> 性能数据将在每个方案完成后填入。
-
----
-
-## AI 智能化扩展（计划中）
-
-| 功能 | 说明 | 技术方案 |
-|------|------|---------|
-| 敏感消息过滤 | 自动检测并拦截垃圾/违规消息 | ONNX Runtime 部署文本分类模型 |
-| 群聊消息摘要 | 长时间未看群，生成消息摘要 | 调用 LLM（本地/API） |
-| 智能回复建议 | 基于上下文生成快捷回复 | RAG + LLM |
-| 异常流量检测 | 监控 QPS/延迟，自动识别异常 | 时序异常检测模型 |
-| 智能聊天机器人 | @机器人提问，RAG 检索历史消息回答 | ChromaDB/FAISS + LLM |
-
----
-
-## 技术栈
-
-| 分类 | 技术 |
-|------|------|
-| 语言 | C++17 |
-| 网络库 | muduo（基于 epoll） |
-| 序列化 | nlohmann JSON |
-| 数据库 | MySQL（持久化） + Redis（缓存） |
-| 负载均衡 | Nginx |
-| AI 推理 | ONNX Runtime / llama.cpp |
-| 向量存储 | ChromaDB / FAISS |
-
----
-
-## 快速开始
-
-> 各方案代码将放在对应目录下，逐步开发中。
+开发方式可采用 Windows VS Code Remote SSH 连接 Linux 虚拟机；以下命令在 Linux 中执行。需要已安装 Muduo，以及 CMake、C++ 编译器、pkg-config、MySQL 客户端开发库、hiredis、OpenSSL 开发库；集成测试还需要 Python3、mysql CLI、redis-server 和 redis-cli。
 
 ```bash
-# 编译 muduo 服务器示例
-g++ -std=c++17 testmuduo/muduo_server.cpp -o muduo_server -lmuduo_net -lmuduo_base -lpthread
-
-# 编译 JSON 测试
-g++ -std=c++17 testjson.cpp -o testjson
+cd CHAT
+cmake -S . -B build
+cmake --build build -j2
 ```
 
----
+首次初始化独立课程测试库，按顺序执行（module09 的 ALTER TABLE 仅执行一次）：
 
-## 目录结构（规划）
+```bash
+mysql -u root -p < sql/module02_test.sql
+mysql -u root -p < sql/module08_offline.sql
+mysql -u root -p < sql/module09_server_id.sql
+mysql -u root -p < sql/module10_friend.sql
+mysql -u root -p < sql/module11_group.sql
+```
 
+SQL 中的账号密码是公开的独立测试夹具，仅用于隔离的本机课程测试库。部署其他环境应另设凭据，通过环境变量传入。
+
+确保本机 Redis 已启动，然后启动服务器：
+
+```bash
+export CHAT_DB_NAME=chat_module_test
+export CHAT_DB_USER=chat_module_test
+read -rsp 'Database password: ' CHAT_DB_PASSWORD; echo
+export CHAT_DB_PASSWORD
+./bin/ChatServer 16000
 ```
-AIchat/
-├── 01_blocking/          # 方案一：阻塞 I/O
-├── 02_multiprocess/      # 方案二：多进程
-├── 03_multithread/       # 方案三：多线程
-├── 04_reactor/           # 方案四：Reactor + 线程池
-├── 05_multi_reactor/     # 方案五：多进程 Reactor
-├── ai/                   # AI 模块（消息过滤、摘要、RAG）
-├── common/               # 公共代码（JSON、编解码）
-├── testjson.cpp          # JSON 序列化测试
-├── testmuduo/            # muduo 入门测试
-└── muduo_test/           # muduo 基础示例
+
+另一个 Linux 终端运行客户端，按菜单注册、登录：
+
+```bash
+cd CHAT
+./bin/ChatClient 127.0.0.1 16000
 ```
+
+服务器使用 SIGINT/SIGTERM 正常退出。完整集群启停与 Nginx 依赖设置见 [Nginx 入口](CHAT/docs/module14_1_nginx_entry.md)及[节点故障恢复](CHAT/docs/module14_2_failover.md)。默认绑定本机回环地址，Windows 开发时在 VS Code 远程终端中运行客户端。
+
+## 性能验证
+
+同一虚拟机，10 对用户、128 字节消息、跨节点单聊，每轮20,000条，连接池关闭/开启各3轮：
+
+| 指标，中位数 | 关闭连接池 | 开启连接池 |
+| --- | --- | --- |
+| 收件人投递次数/秒 | 575.03 | 8,246.17 |
+| 各轮投递P95的中位数 ms | 26.628 | 2.013 |
+
+该配置下吞吐约14.34倍；六轮120,000条消息的ACK和收件数量核对通过，无缺失或重复。数据是有限闭环工作量的观察，不是最大容量或生产环境承诺。复现命令：
+
+```bash
+cd CHAT
+python3 tests/db_pool_comparison.py --long
+```
+
+详见[连接池设计与测试](CHAT/docs/module16_db_pool.md)、[性能采样与报告](CHAT/docs/module15_4_report.md)。运行时原始数据输出到 `.runtime/`，不纳入源码仓库。
+
+## 目录与文档
+
+- `CHAT/src/`、`CHAT/include/`：服务器、客户端、压测工具源码。
+- `CHAT/sql/`：数据库初始化与增量结构脚本。
+- `CHAT/deploy/`：节点、Nginx、压测管理脚本。
+- `CHAT/tests/`：数据模型、聊天、集群、故障和压测验证。
+- `CHAT/docs/`：模块13～16设计、运行与验证记录。
+
+数据库调用目前仍为同步执行；Redis Pub/Sub 不提供持久化确认，发布成功不等于客户端已收件；节点故障后需要客户端重新连接。当前未实现AI扩展。原先阻塞、多进程、多线程等路线保留在[原开发路线](docs/original-roadmap.md)，其中预估并发数字不代表实测结果，也不表示相应方案已完成。

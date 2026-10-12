@@ -1,0 +1,722 @@
+{
+  "date": "2026-10-12",
+  "parameters": {
+    "pairs": 10,
+    "messages_per_pair": 2000,
+    "message_bytes": 128,
+    "repeats_per_mode": 3,
+    "pool_size": 8,
+    "load": "closed loop; same VM",
+    "database_profiling": false,
+    "resource_sampling_seconds": 0.2
+  },
+  "summary": {
+    "redis_direct": {
+      "off": {
+        "repeats": 3,
+        "median_rate": 575.0286366036429,
+        "median_p95_ms": 26.627699,
+        "min_seconds": 34.744509124
+      },
+      "on": {
+        "repeats": 3,
+        "median_rate": 8246.167528702466,
+        "median_p95_ms": 2.013407,
+        "min_seconds": 2.206623711
+      },
+      "rate_ratio": 14.340446725240929
+    }
+  },
+  "runs": [
+    {
+      "pool": "off",
+      "repeat": 1,
+      "ok": true,
+      "measurement": {
+        "ack_failed": 0,
+        "ack_latency": {
+          "max_ms": 45.904871,
+          "mean_ms": 14.108667974550078,
+          "p50_ms": 11.909695,
+          "p95_ms": 26.466432,
+          "p99_ms": 31.236193,
+          "samples": 20000
+        },
+        "ack_missing": 0,
+        "ack_ok": 20000,
+        "by_route": {
+          "remote": {
+            "ack_latency": {
+              "max_ms": 45.904871,
+              "mean_ms": 14.108667974550078,
+              "p50_ms": 11.909695,
+              "p95_ms": 26.466432,
+              "p99_ms": 31.236193,
+              "samples": 20000
+            },
+            "ack_ok": 20000,
+            "delivery_latency": {
+              "max_ms": 45.924622,
+              "mean_ms": 14.368128116449988,
+              "p50_ms": 12.184943,
+              "p95_ms": 26.784689,
+              "p99_ms": 31.509239,
+              "samples": 20000
+            },
+            "delivery_per_second": 575.0286366036429,
+            "received_unique": 20000,
+            "sent": 20000
+          }
+        },
+        "delivery_latency": {
+          "max_ms": 45.924622,
+          "mean_ms": 14.368128116449988,
+          "p50_ms": 12.184943,
+          "p95_ms": 26.784689,
+          "p99_ms": 31.509239,
+          "samples": 20000
+        },
+        "delivery_per_second": 575.0286366036429,
+        "drain_seconds": 0.004885401000002787,
+        "duplicate": 0,
+        "expected": 20000,
+        "missing": 0,
+        "not_sent": 0,
+        "ok": true,
+        "received_unique": 20000,
+        "request_wire_bytes": 3200000,
+        "seconds": 34.780876511,
+        "sending_seconds": 34.77599111,
+        "sent": 20000,
+        "timed_out": false,
+        "unknown": 0
+      },
+      "resource_measurement": {
+        "seconds": 34.781246762,
+        "short_window": false,
+        "backend_cpu_seconds": 76.52,
+        "processes": {
+          "client": {
+            "available": true,
+            "cpu_seconds": 2.5300000000000002,
+            "avg_cpu_percent": 7.273994940132125,
+            "rss_peak_mib": 7.90234375,
+            "fd_peak": 25,
+            "fd_reason": null
+          },
+          "server_1": {
+            "available": true,
+            "cpu_seconds": 1.4700000000000002,
+            "avg_cpu_percent": 4.226396299095807,
+            "rss_peak_mib": 18.27734375,
+            "fd_peak": 34,
+            "fd_reason": null
+          },
+          "redis": {
+            "available": true,
+            "cpu_seconds": 0.66,
+            "avg_cpu_percent": 1.8975691012857743,
+            "rss_peak_mib": 14.21484375,
+            "fd_peak": 15,
+            "fd_reason": null
+          },
+          "server_0": {
+            "available": true,
+            "cpu_seconds": 75.05,
+            "avg_cpu_percent": 215.7763204987187,
+            "rss_peak_mib": 18.44140625,
+            "fd_peak": 42,
+            "fd_reason": null
+          },
+          "mysql_shared": {
+            "available": true,
+            "cpu_seconds": 19.95999999999998,
+            "avg_cpu_percent": 57.38703770682556,
+            "rss_peak_mib": 330.046875,
+            "fd_peak": null,
+            "fd_reason": "unavailable"
+          }
+        }
+      },
+      "binary_sha256": {
+        "ChatServer": "663bbf58a5313d35a6ac81c91948b64ce6cc2a92a2f99de4c9bbd7889e24cb9b",
+        "ChatBench": "1431fe2ffd6e770b4bbf39e56aff60164b268cc50787cec34731f5ccbda45a69"
+      }
+    },
+    {
+      "pool": "on",
+      "repeat": 1,
+      "ok": true,
+      "measurement": {
+        "ack_failed": 0,
+        "ack_latency": {
+          "max_ms": 6.689392,
+          "mean_ms": 0.8982335468999944,
+          "p50_ms": 0.802932,
+          "p95_ms": 1.7574319999999999,
+          "p99_ms": 2.6770940000000003,
+          "samples": 20000
+        },
+        "ack_missing": 0,
+        "ack_ok": 20000,
+        "by_route": {
+          "remote": {
+            "ack_latency": {
+              "max_ms": 6.689392,
+              "mean_ms": 0.8982335468999944,
+              "p50_ms": 0.802932,
+              "p95_ms": 1.7574319999999999,
+              "p99_ms": 2.6770940000000003,
+              "samples": 20000
+            },
+            "ack_ok": 20000,
+            "delivery_latency": {
+              "max_ms": 7.076192,
+              "mean_ms": 1.0622178166000034,
+              "p50_ms": 0.957282,
+              "p95_ms": 2.013407,
+              "p99_ms": 2.965463,
+              "samples": 20000
+            },
+            "delivery_per_second": 8246.167528702466,
+            "received_unique": 20000,
+            "sent": 20000
+          }
+        },
+        "delivery_latency": {
+          "max_ms": 7.076192,
+          "mean_ms": 1.0622178166000034,
+          "p50_ms": 0.957282,
+          "p95_ms": 2.013407,
+          "p99_ms": 2.965463,
+          "samples": 20000
+        },
+        "delivery_per_second": 8246.167528702466,
+        "drain_seconds": 0.00034285200000017113,
+        "duplicate": 0,
+        "expected": 20000,
+        "missing": 0,
+        "not_sent": 0,
+        "ok": true,
+        "received_unique": 20000,
+        "request_wire_bytes": 3200000,
+        "seconds": 2.42536911,
+        "sending_seconds": 2.425026258,
+        "sent": 20000,
+        "timed_out": false,
+        "unknown": 0
+      },
+      "resource_measurement": {
+        "seconds": 2.426344145,
+        "short_window": false,
+        "backend_cpu_seconds": 2.7600000000000002,
+        "processes": {
+          "mysql_shared": {
+            "available": true,
+            "cpu_seconds": 1.1999999999999886,
+            "avg_cpu_percent": 49.454695955075714,
+            "rss_peak_mib": 330.046875,
+            "fd_peak": null,
+            "fd_reason": "unavailable"
+          },
+          "server_1": {
+            "available": true,
+            "cpu_seconds": 0.9700000000000001,
+            "avg_cpu_percent": 39.97550218802202,
+            "rss_peak_mib": 14.85546875,
+            "fd_peak": 35,
+            "fd_reason": null
+          },
+          "client": {
+            "available": true,
+            "cpu_seconds": 1.36,
+            "avg_cpu_percent": 56.04746018813833,
+            "rss_peak_mib": 7.75,
+            "fd_peak": 25,
+            "fd_reason": null
+          },
+          "redis": {
+            "available": true,
+            "cpu_seconds": 0.41,
+            "avg_cpu_percent": 16.89726225145757,
+            "rss_peak_mib": 14.0234375,
+            "fd_peak": 15,
+            "fd_reason": null
+          },
+          "server_0": {
+            "available": true,
+            "cpu_seconds": 1.79,
+            "avg_cpu_percent": 73.76954548371177,
+            "rss_peak_mib": 17.2734375,
+            "fd_peak": 38,
+            "fd_reason": null
+          }
+        }
+      },
+      "binary_sha256": {
+        "ChatServer": "663bbf58a5313d35a6ac81c91948b64ce6cc2a92a2f99de4c9bbd7889e24cb9b",
+        "ChatBench": "1431fe2ffd6e770b4bbf39e56aff60164b268cc50787cec34731f5ccbda45a69"
+      }
+    },
+    {
+      "pool": "on",
+      "repeat": 2,
+      "ok": true,
+      "measurement": {
+        "ack_failed": 0,
+        "ack_latency": {
+          "max_ms": 6.116482,
+          "mean_ms": 0.7932864037499985,
+          "p50_ms": 0.696994,
+          "p95_ms": 1.545054,
+          "p99_ms": 2.2696389999999997,
+          "samples": 20000
+        },
+        "ack_missing": 0,
+        "ack_ok": 20000,
+        "by_route": {
+          "remote": {
+            "ack_latency": {
+              "max_ms": 6.116482,
+              "mean_ms": 0.7932864037499985,
+              "p50_ms": 0.696994,
+              "p95_ms": 1.545054,
+              "p99_ms": 2.2696389999999997,
+              "samples": 20000
+            },
+            "ack_ok": 20000,
+            "delivery_latency": {
+              "max_ms": 6.1350229999999994,
+              "mean_ms": 0.952214884800002,
+              "p50_ms": 0.85446,
+              "p95_ms": 1.779412,
+              "p99_ms": 2.549379,
+              "samples": 20000
+            },
+            "delivery_per_second": 9063.620544046624,
+            "received_unique": 20000,
+            "sent": 20000
+          }
+        },
+        "delivery_latency": {
+          "max_ms": 6.1350229999999994,
+          "mean_ms": 0.952214884800002,
+          "p50_ms": 0.85446,
+          "p95_ms": 1.779412,
+          "p99_ms": 2.549379,
+          "samples": 20000
+        },
+        "delivery_per_second": 9063.620544046624,
+        "drain_seconds": 0.0003139610000002513,
+        "duplicate": 0,
+        "expected": 20000,
+        "missing": 0,
+        "not_sent": 0,
+        "ok": true,
+        "received_unique": 20000,
+        "request_wire_bytes": 3200000,
+        "seconds": 2.206623711,
+        "sending_seconds": 2.20630975,
+        "sent": 20000,
+        "timed_out": false,
+        "unknown": 0
+      },
+      "resource_measurement": {
+        "seconds": 2.207053206,
+        "short_window": false,
+        "backend_cpu_seconds": 2.64,
+        "processes": {
+          "server_0": {
+            "available": true,
+            "cpu_seconds": 1.68,
+            "avg_cpu_percent": 76.11597539262942,
+            "rss_peak_mib": 17.2578125,
+            "fd_peak": 38,
+            "fd_reason": null
+          },
+          "redis": {
+            "available": true,
+            "cpu_seconds": 0.37,
+            "avg_cpu_percent": 16.7638721226444,
+            "rss_peak_mib": 14.125,
+            "fd_peak": 15,
+            "fd_reason": null
+          },
+          "client": {
+            "available": true,
+            "cpu_seconds": 1.4,
+            "avg_cpu_percent": 63.429128564147284,
+            "rss_peak_mib": 7.73828125,
+            "fd_peak": 25,
+            "fd_reason": null
+          },
+          "mysql_shared": {
+            "available": true,
+            "cpu_seconds": 1.1499999999999773,
+            "avg_cpu_percent": 52.103507891819866,
+            "rss_peak_mib": 330.046875,
+            "fd_peak": null,
+            "fd_reason": "unavailable"
+          },
+          "server_1": {
+            "available": true,
+            "cpu_seconds": 0.9600000000000001,
+            "avg_cpu_percent": 43.49453095622185,
+            "rss_peak_mib": 14.80859375,
+            "fd_peak": 35,
+            "fd_reason": null
+          }
+        }
+      },
+      "binary_sha256": {
+        "ChatServer": "663bbf58a5313d35a6ac81c91948b64ce6cc2a92a2f99de4c9bbd7889e24cb9b",
+        "ChatBench": "1431fe2ffd6e770b4bbf39e56aff60164b268cc50787cec34731f5ccbda45a69"
+      }
+    },
+    {
+      "pool": "off",
+      "repeat": 2,
+      "ok": true,
+      "measurement": {
+        "ack_failed": 0,
+        "ack_latency": {
+          "max_ms": 58.254163999999996,
+          "mean_ms": 14.20148202440007,
+          "p50_ms": 12.076474000000001,
+          "p95_ms": 26.179719000000002,
+          "p99_ms": 30.951331,
+          "samples": 20000
+        },
+        "ack_missing": 0,
+        "ack_ok": 20000,
+        "by_route": {
+          "remote": {
+            "ack_latency": {
+              "max_ms": 58.254163999999996,
+              "mean_ms": 14.20148202440007,
+              "p50_ms": 12.076474000000001,
+              "p95_ms": 26.179719000000002,
+              "p99_ms": 30.951331,
+              "samples": 20000
+            },
+            "ack_ok": 20000,
+            "delivery_latency": {
+              "max_ms": 58.425723999999995,
+              "mean_ms": 14.480578206350119,
+              "p50_ms": 12.402071000000001,
+              "p95_ms": 26.480567,
+              "p99_ms": 31.387432999999998,
+              "samples": 20000
+            },
+            "delivery_per_second": 575.630524196552,
+            "received_unique": 20000,
+            "sent": 20000
+          }
+        },
+        "delivery_latency": {
+          "max_ms": 58.425723999999995,
+          "mean_ms": 14.480578206350119,
+          "p50_ms": 12.402071000000001,
+          "p95_ms": 26.480567,
+          "p99_ms": 31.387432999999998,
+          "samples": 20000
+        },
+        "delivery_per_second": 575.630524196552,
+        "drain_seconds": 0.0048259719999990125,
+        "duplicate": 0,
+        "expected": 20000,
+        "missing": 0,
+        "not_sent": 0,
+        "ok": true,
+        "received_unique": 20000,
+        "request_wire_bytes": 3200000,
+        "seconds": 34.744509124,
+        "sending_seconds": 34.739683152,
+        "sent": 20000,
+        "timed_out": false,
+        "unknown": 0
+      },
+      "resource_measurement": {
+        "seconds": 34.744890243,
+        "short_window": false,
+        "backend_cpu_seconds": 76.34,
+        "processes": {
+          "client": {
+            "available": true,
+            "cpu_seconds": 2.54,
+            "avg_cpu_percent": 7.310380848958865,
+            "rss_peak_mib": 7.68359375,
+            "fd_peak": 25,
+            "fd_reason": null
+          },
+          "mysql_shared": {
+            "available": true,
+            "cpu_seconds": 19.83000000000004,
+            "avg_cpu_percent": 57.07285555741861,
+            "rss_peak_mib": 330.046875,
+            "fd_peak": null,
+            "fd_reason": "unavailable"
+          },
+          "server_1": {
+            "available": true,
+            "cpu_seconds": 1.4700000000000002,
+            "avg_cpu_percent": 4.23081300202774,
+            "rss_peak_mib": 18.42578125,
+            "fd_peak": 34,
+            "fd_reason": null
+          },
+          "server_0": {
+            "available": true,
+            "cpu_seconds": 74.87,
+            "avg_cpu_percent": 215.48376594084098,
+            "rss_peak_mib": 18.41796875,
+            "fd_peak": 42,
+            "fd_reason": null
+          },
+          "redis": {
+            "available": true,
+            "cpu_seconds": 0.66,
+            "avg_cpu_percent": 1.8995523032440766,
+            "rss_peak_mib": 14.01171875,
+            "fd_peak": 15,
+            "fd_reason": null
+          }
+        }
+      },
+      "binary_sha256": {
+        "ChatServer": "663bbf58a5313d35a6ac81c91948b64ce6cc2a92a2f99de4c9bbd7889e24cb9b",
+        "ChatBench": "1431fe2ffd6e770b4bbf39e56aff60164b268cc50787cec34731f5ccbda45a69"
+      }
+    },
+    {
+      "pool": "off",
+      "repeat": 3,
+      "ok": true,
+      "measurement": {
+        "ack_failed": 0,
+        "ack_latency": {
+          "max_ms": 48.294036,
+          "mean_ms": 14.156727521499915,
+          "p50_ms": 11.926218,
+          "p95_ms": 26.332658,
+          "p99_ms": 31.370778,
+          "samples": 20000
+        },
+        "ack_missing": 0,
+        "ack_ok": 20000,
+        "by_route": {
+          "remote": {
+            "ack_latency": {
+              "max_ms": 48.294036,
+              "mean_ms": 14.156727521499915,
+              "p50_ms": 11.926218,
+              "p95_ms": 26.332658,
+              "p99_ms": 31.370778,
+              "samples": 20000
+            },
+            "ack_ok": 20000,
+            "delivery_latency": {
+              "max_ms": 48.455085000000004,
+              "mean_ms": 14.439022997249984,
+              "p50_ms": 12.254058,
+              "p95_ms": 26.627699,
+              "p99_ms": 31.636461999999998,
+              "samples": 20000
+            },
+            "delivery_per_second": 567.9580704868133,
+            "received_unique": 20000,
+            "sent": 20000
+          }
+        },
+        "delivery_latency": {
+          "max_ms": 48.455085000000004,
+          "mean_ms": 14.439022997249984,
+          "p50_ms": 12.254058,
+          "p95_ms": 26.627699,
+          "p99_ms": 31.636461999999998,
+          "samples": 20000
+        },
+        "delivery_per_second": 567.9580704868133,
+        "drain_seconds": 0.00469953500000031,
+        "duplicate": 0,
+        "expected": 20000,
+        "missing": 0,
+        "not_sent": 0,
+        "ok": true,
+        "received_unique": 20000,
+        "request_wire_bytes": 3200000,
+        "seconds": 35.213867078,
+        "sending_seconds": 35.209167543,
+        "sent": 20000,
+        "timed_out": false,
+        "unknown": 0
+      },
+      "resource_measurement": {
+        "seconds": 35.214234603,
+        "short_window": false,
+        "backend_cpu_seconds": 76.69,
+        "processes": {
+          "redis": {
+            "available": true,
+            "cpu_seconds": 0.68,
+            "avg_cpu_percent": 1.9310328440363633,
+            "rss_peak_mib": 14.38671875,
+            "fd_peak": 16,
+            "fd_reason": null
+          },
+          "server_1": {
+            "available": true,
+            "cpu_seconds": 1.5,
+            "avg_cpu_percent": 4.25962486487553,
+            "rss_peak_mib": 18.2578125,
+            "fd_peak": 34,
+            "fd_reason": null
+          },
+          "client": {
+            "available": true,
+            "cpu_seconds": 2.56,
+            "avg_cpu_percent": 7.269757391577915,
+            "rss_peak_mib": 7.86328125,
+            "fd_peak": 25,
+            "fd_reason": null
+          },
+          "mysql_shared": {
+            "available": true,
+            "cpu_seconds": 20.04000000000002,
+            "avg_cpu_percent": 56.90862897284826,
+            "rss_peak_mib": 330.046875,
+            "fd_peak": null,
+            "fd_reason": "unavailable"
+          },
+          "server_0": {
+            "available": true,
+            "cpu_seconds": 75.19,
+            "avg_cpu_percent": 213.5208761099352,
+            "rss_peak_mib": 18.53125,
+            "fd_peak": 42,
+            "fd_reason": null
+          }
+        }
+      },
+      "binary_sha256": {
+        "ChatServer": "663bbf58a5313d35a6ac81c91948b64ce6cc2a92a2f99de4c9bbd7889e24cb9b",
+        "ChatBench": "1431fe2ffd6e770b4bbf39e56aff60164b268cc50787cec34731f5ccbda45a69"
+      }
+    },
+    {
+      "pool": "on",
+      "repeat": 3,
+      "ok": true,
+      "measurement": {
+        "ack_failed": 0,
+        "ack_latency": {
+          "max_ms": 7.600328,
+          "mean_ms": 0.9777858829000099,
+          "p50_ms": 0.853425,
+          "p95_ms": 2.021999,
+          "p99_ms": 3.053211,
+          "samples": 20000
+        },
+        "ack_missing": 0,
+        "ack_ok": 20000,
+        "by_route": {
+          "remote": {
+            "ack_latency": {
+              "max_ms": 7.600328,
+              "mean_ms": 0.9777858829000099,
+              "p50_ms": 0.853425,
+              "p95_ms": 2.021999,
+              "p99_ms": 3.053211,
+              "samples": 20000
+            },
+            "ack_ok": 20000,
+            "delivery_latency": {
+              "max_ms": 11.403201,
+              "mean_ms": 1.1595667747500025,
+              "p50_ms": 1.010224,
+              "p95_ms": 2.331765,
+              "p99_ms": 3.657973,
+              "samples": 20000
+            },
+            "delivery_per_second": 7544.167673849201,
+            "received_unique": 20000,
+            "sent": 20000
+          }
+        },
+        "delivery_latency": {
+          "max_ms": 11.403201,
+          "mean_ms": 1.1595667747500025,
+          "p50_ms": 1.010224,
+          "p95_ms": 2.331765,
+          "p99_ms": 3.657973,
+          "samples": 20000
+        },
+        "delivery_per_second": 7544.167673849201,
+        "drain_seconds": 0.00023754700000022666,
+        "duplicate": 0,
+        "expected": 20000,
+        "missing": 0,
+        "not_sent": 0,
+        "ok": true,
+        "received_unique": 20000,
+        "request_wire_bytes": 3200000,
+        "seconds": 2.651054545,
+        "sending_seconds": 2.650816998,
+        "sent": 20000,
+        "timed_out": false,
+        "unknown": 0
+      },
+      "resource_measurement": {
+        "seconds": 2.651446835,
+        "short_window": false,
+        "backend_cpu_seconds": 2.73,
+        "processes": {
+          "client": {
+            "available": true,
+            "cpu_seconds": 1.38,
+            "avg_cpu_percent": 52.04272545295875,
+            "rss_peak_mib": 7.9375,
+            "fd_peak": 25,
+            "fd_reason": null
+          },
+          "server_1": {
+            "available": true,
+            "cpu_seconds": 0.9700000000000001,
+            "avg_cpu_percent": 36.58117506015833,
+            "rss_peak_mib": 14.796875,
+            "fd_peak": 35,
+            "fd_reason": null
+          },
+          "redis": {
+            "available": true,
+            "cpu_seconds": 0.4,
+            "avg_cpu_percent": 15.085575592035614,
+            "rss_peak_mib": 14.2734375,
+            "fd_peak": 15,
+            "fd_reason": null
+          },
+          "mysql_shared": {
+            "available": true,
+            "cpu_seconds": 1.1800000000000068,
+            "avg_cpu_percent": 44.50200170757977,
+            "rss_peak_mib": 330.296875,
+            "fd_peak": null,
+            "fd_reason": "unavailable"
+          },
+          "server_0": {
+            "available": true,
+            "cpu_seconds": 1.76,
+            "avg_cpu_percent": 66.37556909088256,
+            "rss_peak_mib": 17.296875,
+            "fd_peak": 38,
+            "fd_reason": null
+          }
+        }
+      },
+      "binary_sha256": {
+        "ChatServer": "663bbf58a5313d35a6ac81c91948b64ce6cc2a92a2f99de4c9bbd7889e24cb9b",
+        "ChatBench": "1431fe2ffd6e770b4bbf39e56aff60164b268cc50787cec34731f5ccbda45a69"
+      }
+    }
+  ]
+}

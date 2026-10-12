@@ -1,0 +1,13 @@
+# Project-private binaries, package downloads, Nginx PID and logs.
+.runtime/
+
+# Generated build and local environment files
+bin/
+build/
+__pycache__/
+*.pyc
+core
+core.*
+.env
+.env.*
+!.env.example
